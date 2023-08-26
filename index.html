@@ -1,80 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="shortcut icon" href="#">
-        <link rel="stylesheet" href="styles.css">
-        <title>Lorenz Attractor generator with CanvasJS</title>
-    </head>
-    </head>
-    <body>
-        <div id="controls">
-            <span id="equation"><sup>dx</sup>/<sub>dt</sub> = sigma*(y - x)</span> <br/>
-            <span id="equation"><sup>dy</sup>/<sub>dt</sub> = x*(rho - z) - y</span> <br/>
-            <span id="equation"><sup>dz</sup>/<sub>dt</sub> = x*y - beta*z</span> <br/>
-            <span><em>sigma</em>: <label for="sigma">1</label></span>
-            <input
-              id="sigma"
-              type="range"
-              class="range-input"
-              min="1"
-              max="50"
-              step="1"
-              value="1"
-            />
-            <span><em>rho</em>: <label for="rho">1</label></span>
-            <input
-              id="rho"
-              type="range"
-              class="range-input"
-              min="1"
-              max="180"
-              step="1"
-              value="1"
-            />
-            <span><em>beta</em>: <label for="beta">0.1</label></span>
-            <input
-              id="beta"
-              type="range"
-              class="range-input"
-              min="0.1"
-              max="12.0"
-              step="0.1"
-              value="0.1"
-            />
-            
-            <form id="view-form">
-              <input
-                type="radio"
-                id="x-view"
-                class="radio-input"
-                name="radio-x-view"
-                value="true"
-                checked
-              />
-              <label for="y-view" class="label-container">x-view</label>
-              <input
-                type="radio"
-                id="y-view"
-                class="radio-input"
-                name="radio-y-view"
-                value="false"
-              />
-              <label for="z-view" class="label-container">y-view</label>
-              <input
-                type="radio"
-                id="z-view"
-                class="radio-input"
-                name="radio-z-view"
-                value="false"
-              />
-              <label for="z-view" class="label-container">z-view</label>
-            </form>
-            <button id="reset-button">Reset</button>
-          </div>
-        <canvas id="canvas"></canvas>
-        <script src="script.js"></script>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" href="#" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Lorenz System generator</title>
+  </head>
+  <body>
+    <div id="controls">
+      <span id="equation"
+        ><sup>dx</sup>/<sub>dt</sub> = &sigma;&#183;(y - x)</span
+      >
+      <br />
+      <span id="equation"
+        ><sup>dy</sup>/<sub>dt</sub> = x&#183;(&rho; - z) - y</span
+      >
+      <br />
+      <span id="equation"
+        ><sup>dz</sup>/<sub>dt</sub> = x&#183;y - &beta;&#183;z</span
+      >
+      <br />
+      <span><em>&sigma;</em>: <label for="sigma">1</label></span>
+      <input
+        id="sigma"
+        type="range"
+        class="range-input"
+        min="1"
+        max="50"
+        step="1"
+        value="1"
+      />
+      <span><em>&rho;</em>: <label for="rho">1</label></span>
+      <input
+        id="rho"
+        type="range"
+        class="range-input"
+        min="1"
+        max="180"
+        step="1"
+        value="1"
+      />
+      <span><em>&beta;</em>: <label for="beta">0.1</label></span>
+      <input
+        id="beta"
+        type="range"
+        class="range-input"
+        min="0.1"
+        max="12.0"
+        step="0.1"
+        value="0.1"
+      />
+      <form id="view-form">
+        <input
+          type="radio"
+          id="x-view"
+          class="radio-input"
+          name="radio-x-view"
+        />
+        <label for="y-view" class="label-container">X-view</label>
+        <input
+          type="radio"
+          id="y-view"
+          class="radio-input"
+          name="radio-y-view"
+        />
+        <label for="z-view" class="label-container">Y-view</label>
+        <input
+          type="radio"
+          id="z-view"
+          class="radio-input"
+          name="radio-z-view"
+        />
+        <label for="z-view" class="label-container">Z-view</label>
+      </form>
+      <form id="rotating-form">
+        <input
+          type="radio"
+          id="static"
+          class="radio-input"
+          name="radio-static"
+        />
+        <label for="static" class="label-container">static</label>
+        <input
+          type="radio"
+          id="rotating"
+          class="radio-input"
+          name="radio-rotating"
+        />
+        <label for="rotating" class="label-container">rotating</label>
+      </form>
+      <form id="clockwise-form">
+        <input
+          type="radio"
+          id="clockwise"
+          class="radio-input"
+          name="radio-clockwise"
+        />
+        <label for="clockwise" class="label-container">clockwise</label>
+        <input
+          type="radio"
+          id="counterclockwise"
+          class="radio-input"
+          name="radio-counterclockwise"
+        />
+        <label for="counterclockwise" class="label-container"
+          >counterclockwise</label
+        >
+      </form>
+      <button id="reset-button">Reset</button>
+      <button id="pause-button">Pause</button>
+      <button id="start-button">Start</button>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script src="script.js"></script>
+  </body>
 </html>
