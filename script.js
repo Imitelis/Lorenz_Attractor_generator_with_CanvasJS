@@ -3,11 +3,11 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let path = [{ x: 1, y: 1, z: 1 }];
-
 let isRunning = false;
 
+let path = [{ x: 1, y: 1, z: 1 }];
 const dt = 0.01;
+
 let sigma = 10;
 let rho = 28;
 let beta = 2.6;
@@ -47,13 +47,13 @@ function updateControls() {
   labelRho.innerText = Number(rho);
   sliderBeta.value = beta;
   labelBeta.innerText = Number(beta).toFixed(2);
-  radioXView.checked = xView;
-  radioYView.checked = yView;
-  radioZView.checked = zView;
   radioStatic.checked = !rotating;
   radioRotating.checked = rotating;
   radioClockwise.checked = clockwise;
   radioAnticlockwise.checked = !clockwise;
+  radioXView.checked = xView;
+  radioYView.checked = yView;
+  radioZView.checked = zView;
 }
 
 sliderSigma.addEventListener("change", async function (event) {
@@ -167,18 +167,18 @@ resetButton.addEventListener("click", async function () {
   sigma = 10;
   rho = 28;
   beta = 2.6;
+  rotating = true;
+  clockwise = true;
   xView = false;
   yView = true;
   zView = false;
-  rotating = true;
-  clockwise = true;
-  radioXView.checked = xView;
-  radioYView.checked = yView;
-  radioZView.checked = zView;
   radioStatic.checked = !rotating;
   radioRotating.checked = rotating;
   radioClockwise.checked = clockwise;
   radioAnticlockwise.checked = !clockwise;
+  radioXView.checked = xView;
+  radioYView.checked = yView;
+  radioZView.checked = zView;
   updateControls();
   if (!isRunning) {
     pauseSystem();
@@ -186,15 +186,15 @@ resetButton.addEventListener("click", async function () {
   }
 });
 
-pauseButton.addEventListener("click", function () {
-  isRunning = false;
-});
-
 playButton.addEventListener("click", async function () {
   if (!isRunning) {
     pauseSystem();
     await startSystem();
   }
+});
+
+pauseButton.addEventListener("click", async function () {
+  pauseSystem();
 });
 
 updateControls();
@@ -305,17 +305,17 @@ function drawPath(path) {
     if (xView && !rotating) {
       const map = ({ x, y, z }) => [y, z + 15];
       ctx.beginPath();
-      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide / 2));
       ctx.stroke();
     } else if (yView && !rotating) {
       const map = ({ x, y, z }) => [x, z + 15];
       ctx.beginPath();
-      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide / 2));
       ctx.stroke();
     } else if (zView && !rotating) {
       const map = ({ x, y, z }) => [x, y + 15];
       ctx.beginPath();
-      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide / 2));
       ctx.stroke();
     } else if (
       (xView && rotating && clockwise) ||
@@ -328,7 +328,7 @@ function drawPath(path) {
         z + 15,
       ];
       ctx.beginPath();
-      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide / 2));
       ctx.stroke();
     } else if (
       (xView && rotating && !clockwise) ||
@@ -341,7 +341,7 @@ function drawPath(path) {
         z + 15,
       ];
       ctx.beginPath();
-      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide / 2));
       ctx.stroke();
     } else if (zView && rotating && clockwise) {
       const map = ({ x, y, z }) => [
@@ -351,7 +351,7 @@ function drawPath(path) {
           scaledSide,
       ];
       ctx.beginPath();
-      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide / 2));
       ctx.stroke();
     } else if (zView && rotating && !clockwise) {
       const map = ({ x, y, z }) => [
@@ -361,7 +361,7 @@ function drawPath(path) {
           scaledSide,
       ];
       ctx.beginPath();
-      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide / 2));
       ctx.stroke();
     }
   }

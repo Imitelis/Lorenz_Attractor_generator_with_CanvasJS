@@ -63,7 +63,8 @@ button:hover {
   width: 100%;
 }
 
-#play-button, #pause-button {
+#play-button,
+#pause-button {
   width: 50%;
   vertical-align: middle;
 }
