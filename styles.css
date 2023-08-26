@@ -32,6 +32,13 @@ body {
   backdrop-filter: blur(15px);
 }
 
+#equation {
+  font-size: 28px;
+  text-align: center;
+  font-style: italic;
+  margin-left: 33px;
+}
+
 button {
   padding-top: 6px;
   padding-bottom: 4px;
@@ -68,14 +75,6 @@ button:hover {
 #pause-button {
   width: 50%;
   vertical-align: middle;
-}
-
-#equation {
-  font-size: 28px;
-  text-align: center;
-  font-style: italic;
-  margin-left: 20%;
-  margin-right: 20%;
 }
 
 input,
