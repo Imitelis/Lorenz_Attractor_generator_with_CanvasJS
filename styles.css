@@ -27,7 +27,7 @@ body {
   border-radius: 10px;
   left: 15px;
   top: 15px;
-  width: 320px;
+  width: 340px;
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(15px);
 }
@@ -35,7 +35,6 @@ body {
 button {
   padding-top: 6px;
   padding-bottom: 4px;
-  width: 100%;
   background-color: rgba(255, 255, 255, 0.05);
   color: white;
   font-family: Helvetica;
@@ -50,18 +49,31 @@ button:hover {
   transition: 0.2s ease-in-out;
 }
 
-button:first-child {
-  margin-bottom: 8px;
+#reset-button {
+  width: 100%;
+  margin-bottom: 4px;
 }
 
-button:last-child {
-  margin-top: 4px;
+#two-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+#play-button, #pause-button {
+  width: 50%;
+  vertical-align: middle;
 }
 
 #equation {
-  font-size: 26px;
-  justify-content: center;
+  font-size: 28px;
+  text-align: center;
   font-style: italic;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 input,
@@ -115,10 +127,9 @@ label {
   box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.15);
 }
 
-#left-form,
-#single-form,
-#dotted-form,
-#odd-form {
+#view-form,
+#rotating-form,
+#clockwise-form {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

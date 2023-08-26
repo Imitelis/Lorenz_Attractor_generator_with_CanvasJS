@@ -7,16 +7,17 @@ let path = [{ x: 1, y: 1, z: 1 }];
 
 let isRunning = false;
 
-let xView = false;
-let yView = true;
-let zView = false;
-
 const dt = 0.01;
 let sigma = 10;
 let rho = 28;
 let beta = 2.6;
+
 let rotating = true;
 let clockwise = true;
+
+let xView = false;
+let yView = true;
+let zView = false;
 
 const sliderSigma = document.getElementById("sigma");
 const labelSigma = document.querySelector('[for="sigma"]');
@@ -24,16 +25,16 @@ const sliderRho = document.getElementById("rho");
 const labelRho = document.querySelector('[for="rho"]');
 const sliderBeta = document.getElementById("beta");
 const labelBeta = document.querySelector('[for="beta"]');
-const radioXView = document.getElementById("x-view");
-const radioYView = document.getElementById("y-view");
-const radioZView = document.getElementById("z-view");
 const radioStatic = document.getElementById("static");
 const radioRotating = document.getElementById("rotating");
 const radioClockwise = document.getElementById("clockwise");
-const radioCounterclockwise = document.getElementById("counterclockwise");
+const radioAnticlockwise = document.getElementById("anticlockwise");
+const radioXView = document.getElementById("x-view");
+const radioYView = document.getElementById("y-view");
+const radioZView = document.getElementById("z-view");
 const resetButton = document.getElementById("reset-button");
 const pauseButton = document.getElementById("pause-button");
-const startButton = document.getElementById("start-button");
+const playButton = document.getElementById("play-button");
 
 radioXView.checked = false;
 radioYView.checked = true;
@@ -46,13 +47,13 @@ function updateControls() {
   labelRho.innerText = Number(rho);
   sliderBeta.value = beta;
   labelBeta.innerText = Number(beta).toFixed(2);
-  radioStatic.checked = !rotating;
-  radioRotating.checked = rotating;
-  radioClockwise.checked = clockwise;
-  radioCounterclockwise.checked = !clockwise;
   radioXView.checked = xView;
   radioYView.checked = yView;
   radioZView.checked = zView;
+  radioStatic.checked = !rotating;
+  radioRotating.checked = rotating;
+  radioClockwise.checked = clockwise;
+  radioAnticlockwise.checked = !clockwise;
 }
 
 sliderSigma.addEventListener("change", async function (event) {
@@ -82,19 +83,6 @@ sliderBeta.addEventListener("change", async function (event) {
   }
 });
 
-radioXView.addEventListener("click", async function () {
-  xView = true;
-  yView = false;
-  zView = false;
-  radioXView.checked = xView;
-  radioYView.checked = !xView;
-  radioZView.checked = !xView;
-  if (!isRunning) {
-    pauseSystem();
-    await startSystem();
-  }
-});
-
 radioStatic.addEventListener("click", async function () {
   rotating = false;
   radioStatic.checked = !rotating;
@@ -118,17 +106,30 @@ radioRotating.addEventListener("click", async function () {
 radioClockwise.addEventListener("click", async function () {
   clockwise = true;
   radioClockwise.checked = clockwise;
-  radioCounterclockwise.checked = !clockwise;
+  radioAnticlockwise.checked = !clockwise;
   if (!isRunning) {
     pauseSystem();
     await startSystem();
   }
 });
 
-radioCounterclockwise.addEventListener("click", async function () {
+radioAnticlockwise.addEventListener("click", async function () {
   clockwise = false;
   radioClockwise.checked = clockwise;
-  radioCounterclockwise.checked = !clockwise;
+  radioAnticlockwise.checked = !clockwise;
+  if (!isRunning) {
+    pauseSystem();
+    await startSystem();
+  }
+});
+
+radioXView.addEventListener("click", async function () {
+  xView = true;
+  yView = false;
+  zView = false;
+  radioXView.checked = xView;
+  radioYView.checked = !xView;
+  radioZView.checked = !xView;
   if (!isRunning) {
     pauseSystem();
     await startSystem();
@@ -162,6 +163,7 @@ radioZView.addEventListener("click", async function () {
 });
 
 resetButton.addEventListener("click", async function () {
+  path = [{ x: 1, y: 1, z: 1 }];
   sigma = 10;
   rho = 28;
   beta = 2.6;
@@ -176,7 +178,7 @@ resetButton.addEventListener("click", async function () {
   radioStatic.checked = !rotating;
   radioRotating.checked = rotating;
   radioClockwise.checked = clockwise;
-  radioCounterclockwise.checked = !clockwise;
+  radioAnticlockwise.checked = !clockwise;
   updateControls();
   if (!isRunning) {
     pauseSystem();
@@ -188,7 +190,7 @@ pauseButton.addEventListener("click", function () {
   isRunning = false;
 });
 
-startButton.addEventListener("click", async function () {
+playButton.addEventListener("click", async function () {
   if (!isRunning) {
     pauseSystem();
     await startSystem();
@@ -233,77 +235,145 @@ function scale(points, size) {
 var q = 0;
 function drawPath(path) {
   q += 0.01;
+  const largerWidth = canvas.height < canvas.width;
   const scaledSide =
-    canvas.height < canvas.width ? canvas.width * 0.25 : canvas.height * 0.25;
-  if (xView && !rotating) {
-    const map = ({ x, y, z }) => [y, z + 15];
-    ctx.beginPath();
-    path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
-    ctx.stroke();
-  } else if (yView && !rotating) {
-    const map = ({ x, y, z }) => [x, z + 15];
-    ctx.beginPath();
-    path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
-    ctx.stroke();
-  } else if (
-    (xView && rotating && clockwise) ||
-    (yView && rotating && clockwise)
-  ) {
-    const map = ({ x, y, z }) => [
-      (y - scaledSide) * Math.cos(q) -
-        (x - scaledSide) * Math.sin(q) +
-        scaledSide,
-      z + 15,
-    ];
-    ctx.beginPath();
-    path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
-    ctx.stroke();
-  } else if (
-    (xView && rotating && !clockwise) ||
-    (yView && rotating && !clockwise)
-  ) {
-    const map = ({ x, y, z }) => [
-      (x - scaledSide) * Math.cos(q) -
-        (y - scaledSide) * Math.sin(q) +
-        scaledSide,
-      z + 15,
-    ];
-    ctx.beginPath();
-    path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
-    ctx.stroke();
-  } else if (zView && !rotating) {
-    const map = ({ x, y, z }) => [x, y + 15];
-    ctx.beginPath();
-    path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
-    ctx.stroke();
-  } else if (zView && rotating && clockwise) {
-    const map = ({ x, y, z }) => [
-      x,
-      (y - scaledSide) * Math.cos(q) -
-        (z - scaledSide) * Math.sin(q) +
-        scaledSide,
-    ];
-    ctx.beginPath();
-    path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
-    ctx.stroke();
-  } else if (zView && rotating && !clockwise) {
-    const map = ({ x, y, z }) => [
-      x,
-      (z - scaledSide) * Math.cos(q) -
-        (y - scaledSide) * Math.sin(q) +
-        scaledSide,
-    ];
-    ctx.beginPath();
-    path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
-    ctx.stroke();
+    canvas.height < canvas.width ? canvas.width * 0.3 : canvas.height * 0.3;
+  if (largerWidth) {
+    if (xView && !rotating) {
+      const map = ({ x, y, z }) => [y, z + 15];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
+      ctx.stroke();
+    } else if (yView && !rotating) {
+      const map = ({ x, y, z }) => [x, z + 15];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
+      ctx.stroke();
+    } else if (zView && !rotating) {
+      const map = ({ x, y, z }) => [x, y + 15];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
+      ctx.stroke();
+    } else if (
+      (xView && rotating && clockwise) ||
+      (yView && rotating && clockwise)
+    ) {
+      const map = ({ x, y, z }) => [
+        (y - scaledSide) * Math.cos(q) -
+          (x - scaledSide) * Math.sin(q) +
+          scaledSide,
+        z + 15,
+      ];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
+      ctx.stroke();
+    } else if (
+      (xView && rotating && !clockwise) ||
+      (yView && rotating && !clockwise)
+    ) {
+      const map = ({ x, y, z }) => [
+        (x - scaledSide) * Math.cos(q) -
+          (y - scaledSide) * Math.sin(q) +
+          scaledSide,
+        z + 15,
+      ];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
+      ctx.stroke();
+    } else if (zView && rotating && clockwise) {
+      const map = ({ x, y, z }) => [
+        x,
+        (y - scaledSide) * Math.cos(q) -
+          (z - scaledSide) * Math.sin(q) +
+          scaledSide,
+      ];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
+      ctx.stroke();
+    } else if (zView && rotating && !clockwise) {
+      const map = ({ x, y, z }) => [
+        x,
+        (z - scaledSide) * Math.cos(q) -
+          (y - scaledSide) * Math.sin(q) +
+          scaledSide,
+      ];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
+      ctx.stroke();
+    }
+  } else if (!largerWidth) {
+    if (xView && !rotating) {
+      const map = ({ x, y, z }) => [y, z + 15];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      ctx.stroke();
+    } else if (yView && !rotating) {
+      const map = ({ x, y, z }) => [x, z + 15];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      ctx.stroke();
+    } else if (zView && !rotating) {
+      const map = ({ x, y, z }) => [x, y + 15];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      ctx.stroke();
+    } else if (
+      (xView && rotating && clockwise) ||
+      (yView && rotating && clockwise)
+    ) {
+      const map = ({ x, y, z }) => [
+        (y - scaledSide) * Math.cos(q) -
+          (x - scaledSide) * Math.sin(q) +
+          scaledSide,
+        z + 15,
+      ];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      ctx.stroke();
+    } else if (
+      (xView && rotating && !clockwise) ||
+      (yView && rotating && !clockwise)
+    ) {
+      const map = ({ x, y, z }) => [
+        (x - scaledSide) * Math.cos(q) -
+          (y - scaledSide) * Math.sin(q) +
+          scaledSide,
+        z + 15,
+      ];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      ctx.stroke();
+    } else if (zView && rotating && clockwise) {
+      const map = ({ x, y, z }) => [
+        x,
+        (y - scaledSide) * Math.cos(q) -
+          (z - scaledSide) * Math.sin(q) +
+          scaledSide,
+      ];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      ctx.stroke();
+    } else if (zView && rotating && !clockwise) {
+      const map = ({ x, y, z }) => [
+        x,
+        (z - scaledSide) * Math.cos(q) -
+          (y - scaledSide) * Math.sin(q) +
+          scaledSide,
+      ];
+      ctx.beginPath();
+      path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide/2));
+      ctx.stroke();
+    }
   }
 }
 
 function drawStep() {
   if (isRunning) {
+    ctx.globalCompositeOperation = "source-over";
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "hsla(0, 100%, 45%, 0.9)";
     ctx.shadowBlur = 15;
+    ctx.fillStyle = "rgba(0, 0, 0, .05)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = "lighter";
 

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="shortcut icon" href="#" />
     <link rel="stylesheet" href="styles.css" />
-    <title>Lorenz System generator</title>
+    <title>Lorenz Systems generator</title>
   </head>
   <body>
     <div id="controls">
@@ -27,54 +27,31 @@
         id="sigma"
         type="range"
         class="range-input"
+        name="input-sigma"
         min="1"
         max="50"
         step="1"
-        value="1"
       />
       <span><em>&rho;</em>: <label for="rho">1</label></span>
       <input
         id="rho"
         type="range"
         class="range-input"
+        name="input-rho"
         min="1"
         max="180"
         step="1"
-        value="1"
       />
       <span><em>&beta;</em>: <label for="beta">0.1</label></span>
       <input
         id="beta"
         type="range"
         class="range-input"
+        name="input-beta"
         min="0.1"
         max="12.0"
         step="0.1"
-        value="0.1"
       />
-      <form id="view-form">
-        <input
-          type="radio"
-          id="x-view"
-          class="radio-input"
-          name="radio-x-view"
-        />
-        <label for="y-view" class="label-container">X-view</label>
-        <input
-          type="radio"
-          id="y-view"
-          class="radio-input"
-          name="radio-y-view"
-        />
-        <label for="z-view" class="label-container">Y-view</label>
-        <input
-          type="radio"
-          id="z-view"
-          class="radio-input"
-          name="radio-z-view"
-        />
-        <label for="z-view" class="label-container">Z-view</label>
-      </form>
       <form id="rotating-form">
         <input
           type="radio"
@@ -101,17 +78,42 @@
         <label for="clockwise" class="label-container">clockwise</label>
         <input
           type="radio"
-          id="counterclockwise"
+          id="anticlockwise"
           class="radio-input"
-          name="radio-counterclockwise"
+          name="radio-anticlockwise"
         />
-        <label for="counterclockwise" class="label-container"
-          >counterclockwise</label
+        <label for="anticlockwise" class="label-container"
+          >anticlockwise</label
         >
       </form>
+      <form id="view-form">
+        <input
+          type="radio"
+          id="x-view"
+          class="radio-input"
+          name="radio-x-view"
+        />
+        <label for="y-view" class="label-container">X-view</label>
+        <input
+          type="radio"
+          id="y-view"
+          class="radio-input"
+          name="radio-y-view"
+        />
+        <label for="z-view" class="label-container">Y-view</label>
+        <input
+          type="radio"
+          id="z-view"
+          class="radio-input"
+          name="radio-z-view"
+        />
+        <label for="z-view" class="label-container">Z-view</label>
+      </form>
       <button id="reset-button">Reset</button>
-      <button id="pause-button">Pause</button>
-      <button id="start-button">Start</button>
+      <span id="two-buttons">
+        <button id="play-button">Play</button>
+        <button id="pause-button">Pause</button>
+      </span>
     </div>
     <canvas id="canvas"></canvas>
     <script src="script.js"></script>
