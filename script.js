@@ -240,17 +240,17 @@ function drawPath(path) {
     canvas.height < canvas.width ? canvas.width * 0.3 : canvas.height * 0.3;
   if (largerWidth) {
     if (xView && !rotating) {
-      const map = ({ x, y, z }) => [y, z + 15];
+      const map = ({ x, y, z }) => [y, z + 7.5];
       ctx.beginPath();
       path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
       ctx.stroke();
     } else if (yView && !rotating) {
-      const map = ({ x, y, z }) => [x, z + 15];
+      const map = ({ x, y, z }) => [x, z + 7.5];
       ctx.beginPath();
       path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
       ctx.stroke();
     } else if (zView && !rotating) {
-      const map = ({ x, y, z }) => [x, y + 15];
+      const map = ({ x, y, z }) => [x, y + 7.5];
       ctx.beginPath();
       path.map(map).forEach((p) => ctx.lineTo(p[0] + scaledSide, p[1]));
       ctx.stroke();
@@ -303,17 +303,17 @@ function drawPath(path) {
     }
   } else if (!largerWidth) {
     if (xView && !rotating) {
-      const map = ({ x, y, z }) => [y, z + 15];
+      const map = ({ x, y, z }) => [y + 7.5, z];
       ctx.beginPath();
       path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide / 2));
       ctx.stroke();
     } else if (yView && !rotating) {
-      const map = ({ x, y, z }) => [x, z + 15];
+      const map = ({ x, y, z }) => [x + 7.5, z];
       ctx.beginPath();
       path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide / 2));
       ctx.stroke();
     } else if (zView && !rotating) {
-      const map = ({ x, y, z }) => [x, y + 15];
+      const map = ({ x, y, z }) => [x + 7.5, y];
       ctx.beginPath();
       path.map(map).forEach((p) => ctx.lineTo(p[0], p[1] + scaledSide / 2));
       ctx.stroke();
