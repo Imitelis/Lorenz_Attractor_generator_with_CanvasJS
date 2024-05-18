@@ -130,7 +130,8 @@ label {
 
 #view-form,
 #rotating-form,
-#clockwise-form {
+#clockwise-form,
+#pointing-form {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
