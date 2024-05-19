@@ -12,7 +12,7 @@ let sigma = 10;
 let rho = 28;
 let beta = 2.6;
 
-let rotating = false; // true;
+let rotating = true;
 let clockwise = true;
 let downwards = true;
 
